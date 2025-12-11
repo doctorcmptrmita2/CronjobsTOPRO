@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cronjobs-app
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+    volumes:
+      - ./storage/logs:/var/www/html/storage/logs
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - cronjobs-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: cronjobs-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: cronjobs
+      MYSQL_USER: cronjobs
+      MYSQL_PASSWORD: your_secure_password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - cronjobs-network
+
+  redis:
+    image: redis:alpine
+    container_name: cronjobs-redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    networks:
+      - cronjobs-network
+
+networks:
+  cronjobs-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  redis-data:
+
