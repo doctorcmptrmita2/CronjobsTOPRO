@@ -223,3 +223,6 @@ Bu nedenle **fark yaratmak için minimum şu 3 alanda özen şart**:
 Bu `rules.md`, proje boyunca **değişmez referans** kabul edilecek.  
 Yeni ihtiyaçlar doğdukça genişletilebilir; ancak buradaki **temel prensipler** (özellikle Dürüst Görüş / Ürün Gerçekliği bölümü) ihlal edilmemelidir.
 
+
+
+

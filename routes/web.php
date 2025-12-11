@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\JobController as AdminJobController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\CheckController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuestJobController;
+use App\Http\Controllers\HeartbeatController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobRunController;
 use App\Http\Controllers\PageController;
@@ -35,12 +37,19 @@ Route::post('/preview/save', [GuestJobController::class, 'saveJob'])->name('gues
 // Public status page
 Route::get('/status/{slug}', [StatusPageController::class, 'show'])->name('status.public');
 
+// Heartbeat ping endpoints (public, no auth required)
+Route::match(['get', 'post', 'head'], '/ping/{token}', [HeartbeatController::class, 'ping'])
+    ->name('heartbeat.ping')
+    ->withoutMiddleware(['web']); // Minimal middleware for performance
+Route::get('/ping/{token}/status', [HeartbeatController::class, 'status'])
+    ->name('heartbeat.status');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Jobs
     Route::resource('jobs', JobController::class);
-    Route::post('jobs/{job}/toggle', [JobController::class, 'toggle'])->name('jobs.toggle');
+    Route::patch('jobs/{job}/toggle', [JobController::class, 'toggle'])->name('jobs.toggle');
     Route::post('jobs/{job}/run-now', [JobController::class, 'runNow'])->name('jobs.run-now');
     Route::get('jobs/{job}/runs/{run}', [JobRunController::class, 'show'])
         ->scopeBindings()
@@ -48,6 +57,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Statistics
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
+
+    // Uptime Monitoring
+    Route::resource('uptime', CheckController::class)->parameters(['uptime' => 'check']);
+    Route::patch('uptime/{check}/toggle', [CheckController::class, 'toggle'])->name('uptime.toggle');
+    Route::post('uptime/{check}/run-now', [CheckController::class, 'runNow'])->name('uptime.run-now');
 
     // Status Pages
     Route::resource('status-pages', StatusPageController::class)->except(['show']);

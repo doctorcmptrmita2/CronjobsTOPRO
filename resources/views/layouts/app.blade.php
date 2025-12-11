@@ -54,6 +54,12 @@
                         </svg>
                         Status Pages
                     </a>
+                    <a href="{{ route('uptime.index') }}" class="{{ request()->routeIs('uptime.*') ? 'sidebar-link-active' : 'sidebar-link' }}">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Uptime
+                    </a>
 
                     <div class="pt-6 pb-2">
                         <p class="px-3 text-xs font-semibold text-midnight-500 uppercase tracking-wider">Settings</p>

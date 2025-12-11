@@ -39,11 +39,10 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>URL</th>
+                        <th>Type</th>
                         <th>Schedule</th>
                         <th>Status</th>
-                        <th>Last Run</th>
-                        <th>Next Run</th>
+                        <th>Last Activity</th>
                         <th class="text-right">Actions</th>
                     </tr>
                 </thead>
@@ -54,12 +53,32 @@
                             <a href="{{ route('jobs.show', $job) }}" class="text-midnight-100 hover:text-accent-400 transition-colors font-medium">
                                 {{ $job->name }}
                             </a>
-                            <p class="text-xs text-midnight-500 mt-0.5 font-mono">{{ strtoupper($job->http_method) }}</p>
+                            @if($job->isCron())
+                            <p class="text-xs text-midnight-500 mt-0.5 font-mono truncate max-w-[200px]" title="{{ $job->url }}">
+                                {{ $job->url }}
+                            </p>
+                            @else
+                            <p class="text-xs text-emerald-500 mt-0.5">
+                                Ping every {{ $job->heartbeat_interval }} min
+                            </p>
+                            @endif
                         </td>
                         <td>
-                            <span class="text-midnight-400 font-mono text-xs truncate block max-w-[200px]" title="{{ $job->url }}">
-                                {{ $job->url }}
+                            @if($job->isHeartbeat())
+                            <span class="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium bg-emerald-500/10 text-emerald-400 rounded-md">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                                Heartbeat
                             </span>
+                            @else
+                            <span class="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium bg-blue-500/10 text-blue-400 rounded-md">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Cron
+                            </span>
+                            @endif
                         </td>
                         <td>
                             <span class="badge-neutral font-mono">
@@ -67,41 +86,75 @@
                             </span>
                         </td>
                         <td>
-                            @if($job->is_active)
-                            <span class="badge-success">
-                                <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1.5 animate-pulse"></span>
-                                Active
-                            </span>
-                            @else
-                            <span class="badge-neutral">
-                                <span class="w-1.5 h-1.5 bg-midnight-500 rounded-full mr-1.5"></span>
-                                Paused
-                            </span>
-                            @endif
-                        </td>
-                        <td>
-                            @if($job->last_run_at)
-                            <div class="flex items-center gap-2">
-                                @if($job->last_status_code >= 200 && $job->last_status_code < 300)
-                                <span class="w-2 h-2 bg-emerald-400 rounded-full"></span>
-                                @else
-                                <span class="w-2 h-2 bg-red-400 rounded-full"></span>
-                                @endif
-                                <span class="text-xs text-midnight-400 font-mono">
-                                    {{ $job->last_run_at->diffForHumans() }}
+                            @if($job->isHeartbeat())
+                                @php $hbStatus = $job->heartbeat_status; @endphp
+                                @if($hbStatus === 'healthy')
+                                <span class="badge-success">
+                                    <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1.5 animate-pulse"></span>
+                                    Healthy
                                 </span>
-                            </div>
+                                @elseif($hbStatus === 'warning')
+                                <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-amber-500/10 text-amber-400 rounded-md">
+                                    <span class="w-1.5 h-1.5 bg-amber-400 rounded-full mr-1.5"></span>
+                                    Late
+                                </span>
+                                @elseif($hbStatus === 'critical')
+                                <span class="badge-danger">
+                                    <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-1.5"></span>
+                                    Missed
+                                </span>
+                                @elseif($hbStatus === 'waiting')
+                                <span class="badge-neutral">
+                                    <span class="w-1.5 h-1.5 bg-midnight-500 rounded-full mr-1.5"></span>
+                                    Waiting
+                                </span>
+                                @else
+                                <span class="badge-neutral">
+                                    <span class="w-1.5 h-1.5 bg-midnight-500 rounded-full mr-1.5"></span>
+                                    Paused
+                                </span>
+                                @endif
                             @else
-                            <span class="text-midnight-500 text-sm">Never</span>
+                                @if($job->is_active)
+                                <span class="badge-success">
+                                    <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1.5 animate-pulse"></span>
+                                    Active
+                                </span>
+                                @else
+                                <span class="badge-neutral">
+                                    <span class="w-1.5 h-1.5 bg-midnight-500 rounded-full mr-1.5"></span>
+                                    Paused
+                                </span>
+                                @endif
                             @endif
                         </td>
                         <td>
-                            @if($job->next_run_at && $job->is_active)
-                            <span class="text-xs text-midnight-400 font-mono">
-                                {{ $job->next_run_at->diffForHumans() }}
-                            </span>
+                            @if($job->isHeartbeat())
+                                @if($job->last_ping_at)
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-emerald-400 rounded-full"></span>
+                                    <span class="text-xs text-midnight-400 font-mono">
+                                        {{ $job->last_ping_at->diffForHumans() }}
+                                    </span>
+                                </div>
+                                @else
+                                <span class="text-midnight-500 text-sm">No pings yet</span>
+                                @endif
                             @else
-                            <span class="text-midnight-500 text-sm">—</span>
+                                @if($job->last_run_at)
+                                <div class="flex items-center gap-2">
+                                    @if($job->last_status_code >= 200 && $job->last_status_code < 300)
+                                    <span class="w-2 h-2 bg-emerald-400 rounded-full"></span>
+                                    @else
+                                    <span class="w-2 h-2 bg-red-400 rounded-full"></span>
+                                    @endif
+                                    <span class="text-xs text-midnight-400 font-mono">
+                                        {{ $job->last_run_at->diffForHumans() }}
+                                    </span>
+                                </div>
+                                @else
+                                <span class="text-midnight-500 text-sm">Never</span>
+                                @endif
                             @endif
                         </td>
                         <td>
@@ -127,6 +180,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
                                 </a>
+                                @if($job->isCron())
                                 <form action="{{ route('jobs.run-now', $job) }}" method="POST" class="inline">
                                     @csrf
                                     <button type="submit" class="p-2 text-midnight-400 hover:text-accent-400 hover:bg-midnight-800 rounded-lg transition-colors" title="Run Now">
@@ -135,6 +189,7 @@
                                         </svg>
                                     </button>
                                 </form>
+                                @endif
                             </div>
                         </td>
                     </tr>

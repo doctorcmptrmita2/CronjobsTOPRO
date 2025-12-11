@@ -14,7 +14,9 @@ class Plan extends Model
         'name',
         'slug',
         'max_jobs',
+        'max_checks',
         'min_interval_minutes',
+        'min_check_interval_seconds',
         'log_retention_days',
     ];
 

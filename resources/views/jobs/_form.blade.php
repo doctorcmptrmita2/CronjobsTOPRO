@@ -3,6 +3,62 @@
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- Main Form -->
     <div class="lg:col-span-2 space-y-6">
+        <!-- Job Type Selection -->
+        <div class="card p-6">
+            <h3 class="text-lg font-semibold text-midnight-50 mb-6 flex items-center gap-2">
+                <div class="w-8 h-8 bg-accent-500/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </div>
+                Job Type
+            </h3>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Cron Job -->
+                <label class="relative cursor-pointer">
+                    <input type="radio" name="type" value="cron" 
+                           {{ old('type', $job->type ?? 'cron') === 'cron' ? 'checked' : '' }}
+                           class="sr-only peer" onchange="toggleJobType('cron')">
+                    <div class="p-4 rounded-xl border-2 transition-all peer-checked:border-accent-500 peer-checked:bg-accent-500/5 border-midnight-700 hover:border-midnight-600">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-midnight-100">Cron Job</p>
+                                <p class="text-xs text-midnight-500">We call your URL</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-midnight-400">Schedule HTTP requests to your endpoint on a recurring basis.</p>
+                    </div>
+                </label>
+                
+                <!-- Heartbeat -->
+                <label class="relative cursor-pointer">
+                    <input type="radio" name="type" value="heartbeat" 
+                           {{ old('type', $job->type ?? 'cron') === 'heartbeat' ? 'checked' : '' }}
+                           class="sr-only peer" onchange="toggleJobType('heartbeat')">
+                    <div class="p-4 rounded-xl border-2 transition-all peer-checked:border-accent-500 peer-checked:bg-accent-500/5 border-midnight-700 hover:border-midnight-600">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-midnight-100">Heartbeat</p>
+                                <p class="text-xs text-midnight-500">Your service calls us</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-midnight-400">Monitor your cron jobs, workers, or services by receiving pings.</p>
+                    </div>
+                </label>
+            </div>
+        </div>
+
         <!-- Basic Information -->
         <div class="card p-6">
             <h3 class="text-lg font-semibold text-midnight-50 mb-6 flex items-center gap-2">
@@ -25,7 +81,8 @@
                     @enderror
                 </div>
                 
-                <div>
+                <!-- Cron Job URL (hidden for heartbeat) -->
+                <div id="cron-url-section">
                     <label for="url" class="label">URL <span class="text-red-400">*</span></label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -35,7 +92,7 @@
                         </div>
                         <input type="url" name="url" id="url" value="{{ old('url', $job->url ?? '') }}" 
                                class="input pl-11 font-mono text-sm @error('url') input-error @enderror" 
-                               placeholder="https://api.example.com/webhook" required>
+                               placeholder="https://api.example.com/webhook">
                     </div>
                     <p class="mt-1.5 text-xs text-midnight-500">Full URL starting with HTTP or HTTPS</p>
                     @error('url')
@@ -43,7 +100,34 @@
                     @enderror
                 </div>
                 
-                <div class="grid grid-cols-2 gap-4">
+                <!-- Heartbeat Ping URL (shown for heartbeat, readonly) -->
+                <div id="heartbeat-url-section" class="hidden">
+                    <label class="label">Your Ping URL</label>
+                    @if(isset($job) && $job->heartbeat_token)
+                    <div class="relative">
+                        <input type="text" readonly value="{{ $job->ping_url }}" 
+                               id="ping-url-display"
+                               class="input font-mono text-sm bg-midnight-800 pr-24">
+                        <button type="button" onclick="copyPingUrl()" 
+                                class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-medium bg-accent-500 text-midnight-950 rounded-md hover:bg-accent-400 transition-colors">
+                            Copy
+                        </button>
+                    </div>
+                    <p class="mt-1.5 text-xs text-midnight-500">Send GET, POST, or HEAD requests to this URL from your service</p>
+                    @else
+                    <div class="p-4 bg-midnight-800/50 rounded-lg border border-midnight-700">
+                        <p class="text-sm text-midnight-400">
+                            <svg class="w-4 h-4 inline mr-1 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            A unique ping URL will be generated after you create this heartbeat.
+                        </p>
+                    </div>
+                    @endif
+                </div>
+                
+                <!-- Cron HTTP settings (hidden for heartbeat) -->
+                <div id="cron-http-section" class="grid grid-cols-2 gap-4">
                     <div>
                         <label for="http_method" class="label">HTTP Method</label>
                         <select name="http_method" id="http_method" class="select">
@@ -67,6 +151,51 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Heartbeat Interval (shown for heartbeat) -->
+                <div id="heartbeat-interval-section" class="hidden space-y-4">
+                    <div>
+                        <label for="heartbeat_interval" class="label">Expected Ping Interval</label>
+                        <div class="grid grid-cols-4 gap-2 mb-3">
+                            @foreach([
+                                ['value' => 1, 'label' => '1 min'],
+                                ['value' => 5, 'label' => '5 min'],
+                                ['value' => 15, 'label' => '15 min'],
+                                ['value' => 30, 'label' => '30 min'],
+                                ['value' => 60, 'label' => '1 hour'],
+                                ['value' => 360, 'label' => '6 hours'],
+                                ['value' => 720, 'label' => '12 hours'],
+                                ['value' => 1440, 'label' => '24 hours'],
+                            ] as $interval)
+                            <button type="button" 
+                                    onclick="setHeartbeatInterval({{ $interval['value'] }})"
+                                    data-hb-interval="{{ $interval['value'] }}"
+                                    class="hb-interval-btn px-3 py-2 text-sm font-medium rounded-lg border transition-all
+                                           {{ old('heartbeat_interval', $job->heartbeat_interval ?? 5) == $interval['value'] 
+                                              ? 'bg-emerald-500 text-midnight-950 border-emerald-500' 
+                                              : 'bg-midnight-800 text-midnight-300 border-midnight-700 hover:border-midnight-600' }}">
+                                {{ $interval['label'] }}
+                            </button>
+                            @endforeach
+                        </div>
+                        <input type="hidden" name="heartbeat_interval" id="heartbeat_interval" 
+                               value="{{ old('heartbeat_interval', $job->heartbeat_interval ?? 5) }}">
+                        <p class="text-xs text-midnight-500">How often your service should ping us</p>
+                    </div>
+                    
+                    <div>
+                        <label for="heartbeat_grace" class="label">Grace Period (optional)</label>
+                        <div class="relative">
+                            <input type="number" name="heartbeat_grace" id="heartbeat_grace" 
+                                   value="{{ old('heartbeat_grace', $job->heartbeat_grace ?? '') }}" 
+                                   class="input pr-20" min="1" max="1440" placeholder="Auto">
+                            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                <span class="text-midnight-500 text-sm">minutes</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-midnight-500">Extra time before alerting. Default: interval × 1.5</p>
+                    </div>
+                </div>
 
                 <!-- Enable Job Toggle -->
                 <div class="flex items-center justify-between p-4 bg-midnight-800/50 rounded-lg border border-midnight-700">
@@ -85,8 +214,8 @@
             </div>
         </div>
 
-        <!-- Schedule -->
-        <div class="card p-6">
+        <!-- Schedule (hidden for heartbeat) -->
+        <div class="card p-6" id="schedule-section">
             <h3 class="text-lg font-semibold text-midnight-50 mb-6 flex items-center gap-2">
                 <div class="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center">
                     <svg class="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -418,6 +547,74 @@
 
 <script>
 let headerIndex = {{ count($headers ?? []) }};
+let currentJobType = '{{ old('type', $job->type ?? 'cron') }}';
+
+// Job Type Toggle
+function toggleJobType(type) {
+    currentJobType = type;
+    
+    // Cron-specific sections
+    const cronSections = ['cron-url-section', 'cron-http-section', 'schedule-section'];
+    // Heartbeat-specific sections
+    const heartbeatSections = ['heartbeat-url-section', 'heartbeat-interval-section'];
+    
+    if (type === 'cron') {
+        cronSections.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('hidden');
+        });
+        heartbeatSections.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('hidden');
+        });
+        // Make URL required for cron
+        document.getElementById('url').required = true;
+    } else {
+        cronSections.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('hidden');
+        });
+        heartbeatSections.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('hidden');
+        });
+        // URL not required for heartbeat
+        document.getElementById('url').required = false;
+    }
+    
+    updateNextRuns();
+}
+
+// Heartbeat Interval Selection
+function setHeartbeatInterval(minutes) {
+    document.getElementById('heartbeat_interval').value = minutes;
+    
+    document.querySelectorAll('.hb-interval-btn').forEach(btn => {
+        const isActive = parseInt(btn.dataset.hbInterval) === minutes;
+        btn.classList.toggle('bg-emerald-500', isActive);
+        btn.classList.toggle('text-midnight-950', isActive);
+        btn.classList.toggle('border-emerald-500', isActive);
+        btn.classList.toggle('bg-midnight-800', !isActive);
+        btn.classList.toggle('text-midnight-300', !isActive);
+        btn.classList.toggle('border-midnight-700', !isActive);
+    });
+    
+    updateNextRuns();
+}
+
+// Copy Ping URL
+function copyPingUrl() {
+    const url = document.getElementById('ping-url-display');
+    if (url) {
+        navigator.clipboard.writeText(url.value);
+        
+        // Show feedback
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = originalText, 2000);
+    }
+}
 
 // Interval Selection
 function setInterval(minutes) {
@@ -569,6 +766,15 @@ function toggleSection(section) {
 
 // Next Runs Preview
 function updateNextRuns() {
+    // Check if we're in heartbeat mode
+    if (currentJobType === 'heartbeat') {
+        const interval = parseInt(document.getElementById('heartbeat_interval').value) || 5;
+        document.getElementById('next-run-1').textContent = `Expect ping every ${interval} min`;
+        document.getElementById('next-run-2').textContent = '—';
+        document.getElementById('next-run-3').textContent = '—';
+        return;
+    }
+    
     const type = document.getElementById('schedule_type').value;
     const interval = parseInt(document.getElementById('interval_minutes').value) || 15;
     
@@ -602,6 +808,9 @@ function formatDate(date) {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize job type display
+    toggleJobType(currentJobType);
+    
     updateNextRuns();
     updateCronPreview();
     

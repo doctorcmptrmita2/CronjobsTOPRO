@@ -10,19 +10,54 @@
                 <div>
                     <div class="flex items-center gap-3">
                         <h1 class="text-2xl font-bold text-midnight-50">{{ $job->name }}</h1>
-                        @if($job->is_active)
-                        <span class="badge-success">
-                            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1.5 animate-pulse"></span>
-                            Active
-                        </span>
+                        @if($job->isHeartbeat())
+                            @php $hbStatus = $job->heartbeat_status; @endphp
+                            @if($hbStatus === 'healthy')
+                            <span class="badge-success">
+                                <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1.5 animate-pulse"></span>
+                                Healthy
+                            </span>
+                            @elseif($hbStatus === 'warning')
+                            <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium bg-amber-500/10 text-amber-400 rounded-lg">
+                                <span class="w-1.5 h-1.5 bg-amber-400 rounded-full mr-1.5"></span>
+                                Late
+                            </span>
+                            @elseif($hbStatus === 'critical')
+                            <span class="badge-danger">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-1.5"></span>
+                                Missed
+                            </span>
+                            @elseif($hbStatus === 'waiting')
+                            <span class="badge-neutral">Waiting for first ping</span>
+                            @else
+                            <span class="badge-neutral">Paused</span>
+                            @endif
+                            <span class="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium bg-emerald-500/10 text-emerald-400 rounded-md">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                                Heartbeat
+                            </span>
                         @else
-                        <span class="badge-neutral">Paused</span>
+                            @if($job->is_active)
+                            <span class="badge-success">
+                                <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1.5 animate-pulse"></span>
+                                Active
+                            </span>
+                            @else
+                            <span class="badge-neutral">Paused</span>
+                            @endif
                         @endif
                     </div>
+                    @if($job->isHeartbeat())
+                    <p class="text-sm text-midnight-400 mt-1">Expecting ping every {{ $job->heartbeat_interval }} minutes</p>
+                    @else
                     <p class="text-sm text-midnight-400 mt-1 font-mono">{{ $job->url }}</p>
+                    @endif
                 </div>
             </div>
             <div class="flex items-center gap-2">
+                @if($job->isCron())
                 <form action="{{ route('jobs.run-now', $job) }}" method="POST" class="inline">
                     @csrf
                     <button type="submit" class="btn-secondary">
@@ -32,6 +67,7 @@
                         Run Now
                     </button>
                 </form>
+                @endif
                 <a href="{{ route('jobs.edit', $job) }}" class="btn-secondary">
                     <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -53,6 +89,73 @@
     </x-slot>
 
     <!-- Stats -->
+    @if($job->isHeartbeat())
+    <!-- Heartbeat Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div class="stat-card">
+            <p class="stat-card-label">Expected Interval</p>
+            <p class="stat-card-value text-lg font-mono text-emerald-400">{{ $job->heartbeat_interval }} min</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-card-label">Grace Period</p>
+            <p class="stat-card-value text-lg font-mono">{{ $job->effective_grace }} min</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-card-label">Last Ping</p>
+            <p class="stat-card-value text-lg">
+                @if($job->last_ping_at)
+                {{ $job->last_ping_at->diffForHumans() }}
+                @else
+                <span class="text-midnight-500">Never</span>
+                @endif
+            </p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-card-label">Total Pings</p>
+            <p class="stat-card-value text-lg">{{ $job->runs()->where('status', 'success')->count() }}</p>
+        </div>
+    </div>
+    
+    <!-- Ping URL Card -->
+    <div class="card p-6 mb-8 border-l-4 border-l-emerald-500">
+        <div class="flex items-start justify-between gap-4">
+            <div class="flex-1">
+                <h3 class="text-lg font-semibold text-midnight-50 mb-2">Your Ping URL</h3>
+                <p class="text-sm text-midnight-400 mb-4">Send requests to this URL from your cron job, worker, or service to signal it's alive.</p>
+                <div class="relative">
+                    <input type="text" readonly value="{{ $job->ping_url }}" 
+                           id="ping-url" 
+                           class="input font-mono text-sm bg-midnight-800 pr-24 w-full">
+                    <button type="button" onclick="copyPingUrl()" 
+                            class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-xs font-medium bg-accent-500 text-midnight-950 rounded-md hover:bg-accent-400 transition-colors">
+                        Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 p-4 bg-midnight-800/50 rounded-lg">
+            <p class="text-xs text-midnight-400 mb-2">Example usage:</p>
+            <code class="text-xs text-emerald-400 font-mono">curl -X GET "{{ $job->ping_url }}"</code>
+        </div>
+    </div>
+    
+    <script>
+    function copyPingUrl() {
+        const url = document.getElementById('ping-url');
+        navigator.clipboard.writeText(url.value);
+        
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('bg-emerald-500');
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('bg-emerald-500');
+        }, 2000);
+    }
+    </script>
+    @else
+    <!-- Cron Stats -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <div class="stat-card">
             <p class="stat-card-label">Method</p>
@@ -83,6 +186,7 @@
             </p>
         </div>
     </div>
+    @endif
 
     <!-- Job Details -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">

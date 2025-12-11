@@ -259,16 +259,64 @@
                     </p>
                 </div>
 
-                <!-- Feature 6 -->
+                <!-- Feature 6 - Heartbeat Monitoring -->
+                <div class="card-hover p-6 border border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-transparent">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        </div>
+                        <span class="px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-400 rounded-full">NEW</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-midnight-50 mb-2">Heartbeat Monitoring</h3>
+                    <p class="text-midnight-400 text-sm">
+                        Monitor your cron jobs, workers, and services. Get alerted when they stop sending pings.
+                    </p>
+                </div>
+
+                <!-- Feature 7 - Uptime Monitoring -->
+                <div class="card-hover p-6 border border-cyan-500/20 bg-gradient-to-br from-cyan-500/5 to-transparent">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="px-2 py-0.5 text-xs font-medium bg-cyan-500/20 text-cyan-400 rounded-full">NEW</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-midnight-50 mb-2">Uptime Monitoring</h3>
+                    <p class="text-midnight-400 text-sm">
+                        Monitor your websites and APIs 24/7. Get instant alerts when your endpoints go down with response time tracking.
+                    </p>
+                </div>
+
+                <!-- Feature 8 - Status Pages -->
+                <div class="card-hover p-6 border border-violet-500/20 bg-gradient-to-br from-violet-500/5 to-transparent">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-12 h-12 bg-violet-500/10 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <span class="px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-400 rounded-full">NEW</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-midnight-50 mb-2">Public Status Pages</h3>
+                    <p class="text-midnight-400 text-sm">
+                        Create beautiful public status pages for your services. Show your users real-time system health and uptime history.
+                    </p>
+                </div>
+
+                <!-- Feature 9 - Dashboard & Analytics -->
                 <div class="card-hover p-6">
-                    <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <div class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-semibold text-midnight-50 mb-2">Timezone Support</h3>
+                    <h3 class="text-lg font-semibold text-midnight-50 mb-2">Dashboard & Analytics</h3>
                     <p class="text-midnight-400 text-sm">
-                        Schedule jobs in your local timezone. We handle all the time conversion automatically.
+                        Powerful dashboard with real-time statistics, success rates, response times, and comprehensive job analytics at a glance.
                     </p>
                 </div>
             </div>

@@ -9,4 +9,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('cronjobs:dispatch-due')->everyMinute();
+Schedule::command('heartbeats:check')->everyMinute();
+Schedule::command('checks:run')->everyThirtySeconds();
 Schedule::command('cronjobs:cleanup-logs')->daily();

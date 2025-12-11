@@ -28,10 +28,22 @@ class JobController extends Controller
         $job = new Job($this->prepareJobData($request));
         $job->user_id = $request->user()->id;
         $job->timezone = $job->timezone ?: $request->user()->timezone;
-        $job->next_run_at = $scheduler->calculateNextRun($job);
+        
+        // Handle heartbeat jobs
+        if ($job->type === Job::TYPE_HEARTBEAT) {
+            $job->heartbeat_token = Job::generateHeartbeatToken();
+            $job->next_run_at = null; // Heartbeats don't have scheduled runs
+        } else {
+            $job->next_run_at = $scheduler->calculateNextRun($job);
+        }
+        
         $job->save();
 
-        return redirect()->route('jobs.show', $job)->with('status', 'Job created successfully');
+        $message = $job->isHeartbeat() 
+            ? 'Heartbeat created! Use the ping URL to start monitoring.'
+            : 'Job created successfully';
+
+        return redirect()->route('jobs.show', $job)->with('status', $message);
     }
 
     public function show(Job $job)
@@ -75,7 +87,8 @@ class JobController extends Controller
         $this->ensureOwnership($job);
         $job->is_active = ! $job->is_active;
 
-        if ($job->is_active && ! $job->next_run_at) {
+        // Only calculate next_run for cron jobs
+        if ($job->isCron() && $job->is_active && ! $job->next_run_at) {
             $job->next_run_at = $scheduler->calculateNextRun($job);
         }
 
@@ -87,6 +100,11 @@ class JobController extends Controller
     public function runNow(Job $job)
     {
         $this->ensureOwnership($job);
+
+        // Can't manually run heartbeat jobs
+        if ($job->isHeartbeat()) {
+            return back()->with('error', 'Heartbeat jobs cannot be run manually. They receive pings from your service.');
+        }
 
         $job->update(['locked_at' => now()]);
         RunJob::dispatch($job->id);
@@ -115,26 +133,45 @@ class JobController extends Controller
             }
         }
 
-        return [
+        $data = [
+            'type' => $request->input('type', Job::TYPE_CRON),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
-            'url' => $request->input('url'),
-            'http_method' => $request->input('http_method'),
-            'headers_json' => !empty($headers) ? json_encode($headers) : null,
-            'body' => $request->input('body'),
-            'timeout_seconds' => $request->integer('timeout_seconds'),
-            'expected_status_from' => $request->integer('expected_status_from'),
-            'expected_status_to' => $request->integer('expected_status_to'),
-            'schedule_type' => $request->input('schedule_type'),
-            'interval_minutes' => $request->input('interval_minutes'),
-            'daily_time' => $request->input('daily_time'),
-            'weekly_day_of_week' => $request->input('weekly_day_of_week'),
-            'cron_expression' => $request->input('cron_expression'),
-            'timezone' => $request->input('timezone'),
             'is_active' => $request->boolean('is_active'),
-            'max_retries' => $request->integer('max_retries'),
             'failure_alert_threshold' => $request->integer('failure_alert_threshold'),
             'alert_email_enabled' => $request->boolean('alert_email_enabled', true),
         ];
+
+        // Cron-specific fields
+        if ($request->input('type') !== Job::TYPE_HEARTBEAT) {
+            $data = array_merge($data, [
+                'url' => $request->input('url'),
+                'http_method' => $request->input('http_method'),
+                'headers_json' => !empty($headers) ? json_encode($headers) : null,
+                'body' => $request->input('body'),
+                'timeout_seconds' => $request->integer('timeout_seconds'),
+                'expected_status_from' => $request->integer('expected_status_from'),
+                'expected_status_to' => $request->integer('expected_status_to'),
+                'schedule_type' => $request->input('schedule_type'),
+                'interval_minutes' => $request->input('interval_minutes'),
+                'daily_time' => $request->input('daily_time'),
+                'weekly_day_of_week' => $request->input('weekly_day_of_week'),
+                'cron_expression' => $request->input('cron_expression'),
+                'timezone' => $request->input('timezone'),
+                'max_retries' => $request->integer('max_retries'),
+            ]);
+        }
+
+        // Heartbeat-specific fields
+        if ($request->input('type') === Job::TYPE_HEARTBEAT) {
+            $data = array_merge($data, [
+                'heartbeat_interval' => $request->integer('heartbeat_interval', 5),
+                'heartbeat_grace' => $request->filled('heartbeat_grace') 
+                    ? $request->integer('heartbeat_grace') 
+                    : null,
+            ]);
+        }
+
+        return $data;
     }
 }

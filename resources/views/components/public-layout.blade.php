@@ -135,6 +135,9 @@
             </div>
         </div>
     </footer>
+
+    <!-- Cookie Consent Banner -->
+    <x-cookie-consent />
 </body>
 </html>
 

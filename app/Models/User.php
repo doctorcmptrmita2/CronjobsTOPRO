@@ -83,4 +83,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(StatusPage::class);
     }
+
+    public function checks(): HasMany
+    {
+        return $this->hasMany(Check::class);
+    }
 }
