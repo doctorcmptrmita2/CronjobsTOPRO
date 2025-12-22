@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="text-2xl font-bold text-midnight-50">Account Settings</h1>
-        <p class="text-sm text-midnight-400 mt-1">Manage your account preferences</p>
+        <h1 class="text-2xl font-bold text-midnight-50">{{ __('app.account_settings') }}</h1>
+        <p class="text-sm text-midnight-400 mt-1">{{ __('app.manage_account_prefs') }}</p>
     </x-slot>
 
     <div class="max-w-2xl">
@@ -11,7 +11,7 @@
 
             <div class="card p-6 space-y-6">
                 <div>
-                    <label for="name" class="label">Name</label>
+                    <label for="name" class="label">{{ __('app.name') }}</label>
                     <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" 
                            class="input @error('name') input-error @enderror" required>
                     @error('name')
@@ -20,7 +20,7 @@
                 </div>
 
                 <div>
-                    <label for="email" class="label">Email</label>
+                    <label for="email" class="label">{{ __('app.email') }}</label>
                     <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" 
                            class="input @error('email') input-error @enderror" required>
                     @error('email')
@@ -29,21 +29,34 @@
                 </div>
 
                 <div>
-                    <label for="timezone" class="label">Timezone</label>
+                    <label for="timezone" class="label">{{ __('app.timezone') }}</label>
                     <input type="text" name="timezone" id="timezone" value="{{ old('timezone', $user->timezone) }}" 
                            class="input @error('timezone') input-error @enderror" placeholder="UTC">
-                    <p class="mt-1.5 text-xs text-midnight-500">This timezone will be used as the default for new jobs</p>
+                    <p class="mt-1.5 text-xs text-midnight-500">{{ __('app.timezone_hint') }}</p>
                     @error('timezone')
                     <p class="mt-1.5 text-sm text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
-                    <label for="notification_email" class="label">Notification Email</label>
+                    <label for="locale" class="label">{{ __('app.language') }}</label>
+                    <select name="locale" id="locale" class="input @error('locale') input-error @enderror">
+                        <option value="en" {{ old('locale', $user->locale) === 'en' ? 'selected' : '' }}>🇬🇧 English</option>
+                        <option value="tr" {{ old('locale', $user->locale) === 'tr' ? 'selected' : '' }}>🇹🇷 Türkçe</option>
+                        <option value="de" {{ old('locale', $user->locale) === 'de' ? 'selected' : '' }}>🇩🇪 Deutsch</option>
+                    </select>
+                    <p class="mt-1.5 text-xs text-midnight-500">{{ __('app.language_desc') }}</p>
+                    @error('locale')
+                    <p class="mt-1.5 text-sm text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="notification_email" class="label">{{ __('app.notification_email') }}</label>
                     <input type="email" name="notification_email" id="notification_email" 
                            value="{{ old('notification_email', $user->notification_email) }}" 
                            class="input @error('notification_email') input-error @enderror">
-                    <p class="mt-1.5 text-xs text-midnight-500">Failure alerts will be sent to this email</p>
+                    <p class="mt-1.5 text-xs text-midnight-500">{{ __('app.failure_alerts_hint') }}</p>
                     @error('notification_email')
                     <p class="mt-1.5 text-sm text-red-400">{{ $message }}</p>
                     @enderror
@@ -54,7 +67,7 @@
                         <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
-                        Save Changes
+                        {{ __('app.save_changes') }}
                     </button>
                 </div>
             </div>
@@ -62,18 +75,18 @@
 
         <!-- Plan Info -->
         <div class="card p-6 mt-6">
-            <h3 class="text-lg font-semibold text-midnight-50 mb-4">Current Plan</h3>
+            <h3 class="text-lg font-semibold text-midnight-50 mb-4">{{ __('app.current_plan') }}</h3>
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-midnight-100 font-medium">{{ $user->plan?->name ?? 'Free' }} Plan</p>
+                    <p class="text-midnight-100 font-medium">{{ $user->plan?->name ?? __('app.free_plan') }}</p>
                     <p class="text-sm text-midnight-400">
-                        {{ $user->plan?->max_jobs ?? 5 }} jobs • 
-                        {{ $user->plan?->min_interval_minutes ?? 15 }} min interval • 
-                        {{ $user->plan?->log_retention_days ?? 30 }} days retention
+                        {{ $user->plan?->max_jobs ?? 5 }} {{ __('app.jobs') }} • 
+                        {{ $user->plan?->min_interval_minutes ?? 15 }} {{ __('app.min_interval') }} • 
+                        {{ $user->plan?->log_retention_days ?? 30 }} {{ __('app.days_retention') }}
                     </p>
                 </div>
                 <a href="{{ route('pricing') }}" class="btn-secondary text-sm">
-                    Upgrade Plan
+                    {{ __('app.upgrade_plan') }}
                 </a>
             </div>
         </div>

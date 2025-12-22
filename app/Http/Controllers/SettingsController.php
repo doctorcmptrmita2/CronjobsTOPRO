@@ -84,7 +84,11 @@ class SettingsController extends Controller
     {
         $validated = $request->validate([
             'notification_email' => 'nullable|email|max:255',
+            'login_alerts_enabled' => 'nullable|boolean',
         ]);
+
+        // Handle checkbox
+        $validated['login_alerts_enabled'] = $request->has('login_alerts_enabled');
 
         $request->user()->update($validated);
 

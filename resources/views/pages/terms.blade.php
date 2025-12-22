@@ -1,4 +1,8 @@
-<x-public-layout title="Terms of Service">
+<x-public-layout 
+    title="Terms of Service - Usage Agreement" 
+    description="Cronjobs.to Terms of Service. Understand your rights, responsibilities, and our service guarantees. Fair terms, plain language. Last updated December 2025."
+    keywords="terms of service, user agreement, service terms, acceptable use, cronjobs.to terms, legal agreement, SLA"
+>
     <div class="min-h-screen py-24">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             

@@ -2,21 +2,21 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-midnight-50">All Jobs</h1>
-                <p class="text-sm text-midnight-400 mt-1">View and manage all scheduled jobs</p>
+                <h1 class="text-2xl font-bold text-midnight-50">{{ __('app.all_jobs') }}</h1>
+                <p class="text-sm text-midnight-400 mt-1">{{ __('app.admin_jobs_desc') }}</p>
             </div>
             
             <!-- Filters -->
             <form method="GET" class="flex items-center gap-3">
                 <select name="status" onchange="this.form.submit()" class="select text-sm py-2">
-                    <option value="">All Status</option>
-                    <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
-                    <option value="paused" {{ request('status') === 'paused' ? 'selected' : '' }}>Paused</option>
+                    <option value="">{{ __('app.all_status') }}</option>
+                    <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>{{ __('app.active') }}</option>
+                    <option value="paused" {{ request('status') === 'paused' ? 'selected' : '' }}>{{ __('app.paused') }}</option>
                 </select>
                 <label class="flex items-center gap-2 text-sm text-midnight-400">
                     <input type="checkbox" name="failing" value="1" {{ request('failing') ? 'checked' : '' }} onchange="this.form.submit()"
                            class="rounded border-midnight-700 bg-midnight-800 text-accent-500 focus:ring-accent-500">
-                    Only failing
+                    {{ __('app.only_failing') }}
                 </label>
             </form>
         </div>
@@ -27,12 +27,12 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>User</th>
-                        <th>Status</th>
-                        <th>Last Run</th>
-                        <th>Failures</th>
+                        <th>{{ __('app.id') }}</th>
+                        <th>{{ __('app.name') }}</th>
+                        <th>{{ __('app.user') }}</th>
+                        <th>{{ __('app.status') }}</th>
+                        <th>{{ __('app.last_run') }}</th>
+                        <th>{{ __('app.failures') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,9 +46,9 @@
                         <td class="text-midnight-400">{{ $job->user->email }}</td>
                         <td>
                             @if($job->is_active)
-                            <span class="badge-success">Active</span>
+                            <span class="badge-success">{{ __('app.active') }}</span>
                             @else
-                            <span class="badge-neutral">Paused</span>
+                            <span class="badge-neutral">{{ __('app.paused') }}</span>
                             @endif
                         </td>
                         <td>
@@ -60,7 +60,7 @@
                                 <span class="text-xs text-midnight-500">{{ $job->last_run_at->diffForHumans() }}</span>
                             </div>
                             @else
-                            <span class="text-midnight-500 text-sm">Never</span>
+                            <span class="text-midnight-500 text-sm">{{ __('app.never') }}</span>
                             @endif
                         </td>
                         <td>

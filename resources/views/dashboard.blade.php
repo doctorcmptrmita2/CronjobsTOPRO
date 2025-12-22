@@ -2,14 +2,14 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-midnight-50">Dashboard</h1>
-                <p class="text-sm text-midnight-400 mt-1">Overview of your scheduled jobs and recent activity</p>
+                <h1 class="text-2xl font-bold text-midnight-50">{{ __('app.dashboard') }}</h1>
+                <p class="text-sm text-midnight-400 mt-1">{{ __('app.dashboard_desc') }}</p>
             </div>
             <a href="{{ route('jobs.create') }}" class="btn-primary">
                 <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
-                New Job
+                {{ __('app.new_job') }}
             </a>
         </div>
     </x-slot>
@@ -20,7 +20,7 @@
         <div class="stat-card group hover:border-midnight-700 transition-colors">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="stat-card-label">Total Jobs</p>
+                    <p class="stat-card-label">{{ __('app.total_jobs') }}</p>
                     <p class="stat-card-value">{{ $totalJobs }}</p>
                 </div>
                 <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
@@ -35,7 +35,7 @@
         <div class="stat-card group hover:border-midnight-700 transition-colors">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="stat-card-label">Active Jobs</p>
+                    <p class="stat-card-label">{{ __('app.active_jobs') }}</p>
                     <p class="stat-card-value text-emerald-400">{{ $activeJobs }}</p>
                 </div>
                 <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
@@ -50,7 +50,7 @@
         <div class="stat-card group hover:border-midnight-700 transition-colors">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="stat-card-label">Runs (24h)</p>
+                    <p class="stat-card-label">{{ __('app.runs_24h') }}</p>
                     <p class="stat-card-value">{{ $runsLast24h }}</p>
                 </div>
                 <div class="w-12 h-12 bg-accent-500/10 rounded-xl flex items-center justify-center group-hover:bg-accent-500/20 transition-colors">
@@ -65,7 +65,7 @@
         <div class="stat-card group hover:border-midnight-700 transition-colors">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="stat-card-label">Success Rate (24h)</p>
+                    <p class="stat-card-label">{{ __('app.success_rate_24h') }}</p>
                     <p class="stat-card-value {{ $successRate >= 90 ? 'text-emerald-400' : ($successRate >= 70 ? 'text-amber-400' : 'text-red-400') }}">
                         {{ number_format($successRate, 1) }}%
                     </p>
@@ -82,9 +82,9 @@
     <!-- Recent Runs -->
     <div class="card">
         <div class="px-6 py-4 border-b border-midnight-800 flex items-center justify-between">
-            <h2 class="text-lg font-semibold text-midnight-50">Recent Runs</h2>
+            <h2 class="text-lg font-semibold text-midnight-50">{{ __('app.recent_runs') }}</h2>
             <a href="{{ route('jobs.index') }}" class="text-sm text-accent-500 hover:text-accent-400 transition-colors">
-                View all jobs →
+                {{ __('app.view_all_jobs') }} →
             </a>
         </div>
         
@@ -95,9 +95,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>
-            <p class="text-midnight-400 mb-4">No runs yet. Create your first job to get started.</p>
+            <p class="text-midnight-400 mb-4">{{ __('app.no_runs_yet') }}</p>
             <a href="{{ route('jobs.create') }}" class="btn-primary">
-                Create Job
+                {{ __('app.create_job') }}
             </a>
         </div>
         @else
@@ -105,11 +105,11 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Job</th>
-                        <th>Ran at</th>
-                        <th>Status</th>
-                        <th>Duration</th>
-                        <th>Result</th>
+                        <th>{{ __('app.job') }}</th>
+                        <th>{{ __('app.ran_at') }}</th>
+                        <th>{{ __('app.status') }}</th>
+                        <th>{{ __('app.duration') }}</th>
+                        <th>{{ __('app.result') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -137,14 +137,14 @@
                                 <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                 </svg>
-                                Success
+                                {{ __('app.success') }}
                             </span>
                             @else
                             <span class="badge-danger">
                                 <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
-                                Failed
+                                {{ __('app.failed') }}
                             </span>
                             @endif
                         </td>

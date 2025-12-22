@@ -13,11 +13,23 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PricingController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\LoginHistoryController;
 use App\Http\Controllers\StatusPageController;
+use App\Http\Controllers\TelegramController;
+use App\Http\Controllers\TwoFactorController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'landing')->name('landing');
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
+Route::view('/docs', 'pages.docs')->name('docs');
+
+// Telegram webhook (no CSRF)
+Route::post('/webhook/telegram', [TelegramController::class, 'webhook'])->name('telegram.webhook');
+
+// Two-Factor Authentication Challenge
+Route::get('/two-factor-challenge', [TwoFactorController::class, 'challenge'])->name('two-factor.challenge');
+Route::post('/two-factor-challenge', [TwoFactorController::class, 'verifyChallenge'])->name('two-factor.verify');
 
 // Static Pages
 Route::get('/about', [PageController::class, 'about'])->name('about');
@@ -58,6 +70,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Statistics
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
 
+    // Activity Log
+    Route::get('/activity-log', [ActivityLogController::class, 'index'])->name('activity-log.index');
+    Route::get('/activity-log/{id}', [ActivityLogController::class, 'show'])->name('activity-log.show');
+
     // Uptime Monitoring
     Route::resource('uptime', CheckController::class)->parameters(['uptime' => 'check']);
     Route::patch('uptime/{check}/toggle', [CheckController::class, 'toggle'])->name('uptime.toggle');
@@ -76,6 +92,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/api/regenerate', [SettingsController::class, 'regenerateApiToken'])->name('settings.api.regenerate');
         Route::get('/notifications', [SettingsController::class, 'notifications'])->name('settings.notifications');
         Route::put('/notifications', [SettingsController::class, 'updateNotifications'])->name('settings.notifications.update');
+        Route::get('/login-history', [LoginHistoryController::class, 'index'])->name('settings.login-history');
+        
+        // Telegram settings
+        Route::get('/telegram', [TelegramController::class, 'index'])->name('settings.telegram');
+        Route::post('/telegram/connect', [TelegramController::class, 'connect'])->name('settings.telegram.connect');
+        Route::delete('/telegram/disconnect', [TelegramController::class, 'disconnect'])->name('settings.telegram.disconnect');
+        Route::post('/telegram/test', [TelegramController::class, 'test'])->name('settings.telegram.test');
+        
+        // Two-Factor Authentication settings
+        Route::get('/two-factor', [TwoFactorController::class, 'index'])->name('settings.two-factor');
+        Route::get('/two-factor/setup', [TwoFactorController::class, 'setup'])->name('settings.two-factor.setup');
+        Route::post('/two-factor/enable', [TwoFactorController::class, 'enable'])->name('settings.two-factor.enable');
+        Route::delete('/two-factor/disable', [TwoFactorController::class, 'disable'])->name('settings.two-factor.disable');
+        Route::get('/two-factor/recovery-codes', [TwoFactorController::class, 'recoveryCodes'])->name('settings.two-factor.recovery-codes');
+        Route::post('/two-factor/regenerate-codes', [TwoFactorController::class, 'regenerateRecoveryCodes'])->name('settings.two-factor.regenerate-codes');
     });
 });
 

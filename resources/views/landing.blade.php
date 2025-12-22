@@ -1,4 +1,7 @@
-<x-public-layout>
+<x-public-layout 
+    description="Schedule HTTP jobs in the cloud with Cronjobs.to. Auto-retry on failure, Telegram & Email alerts, 2FA security, uptime monitoring, and status pages. Free plan available."
+    keywords="cron job scheduler, http job scheduler, cloud cron, job monitoring, uptime monitoring, heartbeat monitoring, status page, scheduled tasks"
+>
     <!-- Hero Section with Cron Editor -->
     <section class="relative pt-24 pb-16 overflow-hidden">
         <!-- Background effects -->
@@ -8,22 +11,51 @@
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <!-- Badge -->
-                <div class="inline-flex items-center gap-2 px-4 py-2 bg-midnight-900 border border-midnight-800 rounded-full text-sm mb-6">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-midnight-900 border border-accent-500/30 rounded-full text-sm mb-6 shadow-lg shadow-accent-500/10">
                     <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                    <span class="text-midnight-300">No signup required to try</span>
+                    <span class="text-midnight-200">No signup required — Test your job now</span>
                 </div>
 
-                <!-- Heading -->
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-                    <span class="text-midnight-50">The Last Cron Tool</span>
+                <!-- Heading - Clear Value Proposition -->
+                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight mb-6">
+                    <span class="text-midnight-50">Cron Jobs + Monitoring</span>
                     <br>
-                    <span class="text-gradient">You'll Need</span>
+                    <span class="text-gradient">One Dashboard</span>
                 </h1>
 
-                <!-- Subheading -->
-                <p class="text-xl text-midnight-300 max-w-2xl mx-auto">
-                    Simple to set up. Reliable every time. Powerful when it matters.
+                <!-- Subheading - Concrete Benefits -->
+                <p class="text-xl lg:text-2xl text-midnight-300 max-w-3xl mx-auto mb-8 leading-relaxed">
+                    Schedule HTTP tasks. <span class="text-accent-400 font-semibold">Auto-retry on failure.</span> 
+                    Get <span class="text-emerald-400 font-semibold">Telegram & Email alerts.</span>
+                    <br>
+                    <span class="text-cyan-400 font-semibold">2FA security.</span> 
+                    <span class="text-violet-400 font-semibold">Multi-language support.</span>
                 </p>
+
+                <!-- Trust Indicators -->
+                <div class="flex flex-wrap items-center justify-center gap-3 lg:gap-4 mb-8">
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <span class="text-sm font-medium text-midnight-100">99.9%</span>
+                        <span class="text-midnight-500 text-xs">Uptime</span>
+                    </div>
+                    <div class="w-px h-3.5 bg-midnight-700 hidden sm:block"></div>
+                    <div class="flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span class="text-sm font-medium text-midnight-100">1M+</span>
+                        <span class="text-midnight-500 text-xs">Jobs Executed</span>
+                    </div>
+                    <div class="w-px h-3.5 bg-midnight-700 hidden sm:block"></div>
+                    <div class="flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-sm font-medium text-midnight-100">&lt;100ms</span>
+                        <span class="text-midnight-500 text-xs">Latency</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Interactive Job Creator -->
@@ -163,21 +195,19 @@
                 </form>
             </div>
 
-            <!-- Trust Badges -->
-            <div class="flex items-center justify-center gap-8 mt-12 pt-8 border-t border-midnight-800/50">
-                <div class="text-center">
-                    <p class="text-2xl font-bold text-midnight-50">99.9%</p>
-                    <p class="text-sm text-midnight-500">Uptime</p>
-                </div>
-                <div class="w-px h-10 bg-midnight-800"></div>
-                <div class="text-center">
-                    <p class="text-2xl font-bold text-midnight-50">1M+</p>
-                    <p class="text-sm text-midnight-500">Jobs Executed</p>
-                </div>
-                <div class="w-px h-10 bg-midnight-800"></div>
-                <div class="text-center">
-                    <p class="text-2xl font-bold text-midnight-50">&lt;100ms</p>
-                    <p class="text-sm text-midnight-500">Avg Latency</p>
+            <!-- Comparison Banner -->
+            <div class="mt-12 pt-8 border-t border-midnight-800/50">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+                    <p class="text-midnight-400 text-sm">
+                        <span class="text-accent-400 font-bold">Pro starts at $5/month</span> — 
+                        Competitors charge $20-50 for the same features
+                    </p>
+                    <a href="{{ route('pricing') }}" class="text-accent-400 hover:text-accent-300 text-sm font-medium flex items-center gap-1 transition-colors">
+                        See pricing
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -220,16 +250,19 @@
                     </p>
                 </div>
 
-                <!-- Feature 3 -->
-                <div class="card-hover p-6">
-                    <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                        </svg>
+                <!-- Feature 3 - Telegram & Email Alerts -->
+                <div class="card-hover p-6 border border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                        </div>
+                        <span class="px-2 py-0.5 text-xs font-medium bg-purple-500/20 text-purple-400 rounded-full">NEW</span>
                     </div>
-                    <h3 class="text-lg font-semibold text-midnight-50 mb-2">Instant Alerts</h3>
+                    <h3 class="text-lg font-semibold text-midnight-50 mb-2">Telegram & Email Alerts</h3>
                     <p class="text-midnight-400 text-sm">
-                        Get notified immediately when your jobs fail. Email notifications with detailed error information.
+                        Get notified via Telegram or Email when your jobs fail. Instant notifications with detailed error information.
                     </p>
                 </div>
 
@@ -319,6 +352,315 @@
                         Powerful dashboard with real-time statistics, success rates, response times, and comprehensive job analytics at a glance.
                     </p>
                 </div>
+
+                <!-- Feature 10 - Two-Factor Authentication -->
+                <div class="card-hover p-6 border border-rose-500/20 bg-gradient-to-br from-rose-500/5 to-transparent">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-12 h-12 bg-rose-500/10 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <span class="px-2 py-0.5 text-xs font-medium bg-rose-500/20 text-rose-400 rounded-full">NEW</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-midnight-50 mb-2">Two-Factor Authentication</h3>
+                    <p class="text-midnight-400 text-sm">
+                        Secure your account with 2FA using Google Authenticator or Authy. Recovery codes included for backup access.
+                    </p>
+                </div>
+
+                <!-- Feature 11 - Multi-Language Support -->
+                <div class="card-hover p-6 border border-sky-500/20 bg-gradient-to-br from-sky-500/5 to-transparent">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                            </svg>
+                        </div>
+                        <span class="px-2 py-0.5 text-xs font-medium bg-sky-500/20 text-sky-400 rounded-full">NEW</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-midnight-50 mb-2">Multi-Language Support</h3>
+                    <p class="text-midnight-400 text-sm">
+                        Use the platform in your preferred language. Currently supporting English, Turkish, and German with more coming soon.
+                    </p>
+                </div>
+
+                <!-- Feature 12 - Activity Log -->
+                <div class="card-hover p-6 border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                        </div>
+                        <span class="px-2 py-0.5 text-xs font-medium bg-amber-500/20 text-amber-400 rounded-full">NEW</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-midnight-50 mb-2">Activity Log & History</h3>
+                    <p class="text-midnight-400 text-sm">
+                        Track all your job executions, API requests, and system activities. Full request/response details with filtering options.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-midnight-900 border border-rose-500/30 rounded-full text-sm mb-6 shadow-lg shadow-rose-500/10">
+                    <svg class="w-4 h-4 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    <span class="text-midnight-200">Enterprise-Grade Security</span>
+                </div>
+                <h2 class="text-3xl font-bold text-midnight-50 mb-4">Your Security is Our Priority</h2>
+                <p class="text-midnight-400 max-w-2xl mx-auto">
+                    Protect your account and data with advanced security features designed for peace of mind.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Security Feature 1 -->
+                <div class="card p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-rose-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-midnight-50 mb-3">Two-Factor Authentication</h3>
+                    <p class="text-midnight-400">
+                        Add an extra layer of security with TOTP-based 2FA. Compatible with Google Authenticator, Authy, and other authenticator apps.
+                    </p>
+                    <ul class="mt-4 space-y-2 text-sm text-midnight-400">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            QR Code Setup
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            8 Recovery Codes
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Easy Enable/Disable
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Security Feature 2 -->
+                <div class="card p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-midnight-50 mb-3">Login Notifications</h3>
+                    <p class="text-midnight-400">
+                        Get instant alerts whenever someone logs into your account. Know exactly when and where your account is accessed.
+                    </p>
+                    <ul class="mt-4 space-y-2 text-sm text-midnight-400">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Email & Telegram Alerts
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Device & Location Info
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Suspicious Activity Detection
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Security Feature 3 -->
+                <div class="card p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500/20 to-violet-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-midnight-50 mb-3">Login History</h3>
+                    <p class="text-midnight-400">
+                        Full visibility into your account access history. Review all login attempts with detailed information.
+                    </p>
+                    <ul class="mt-4 space-y-2 text-sm text-midnight-400">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            IP Address Tracking
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Browser & Platform Details
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            New Device Detection
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Platform Section -->
+    <section class="py-24 bg-midnight-900/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-midnight-800 border border-sky-500/30 rounded-full text-sm mb-6">
+                        <svg class="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-midnight-200">Global Platform</span>
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-midnight-50 mb-6">
+                        Use Cronjobs.to in
+                        <span class="text-gradient">Your Language</span>
+                    </h2>
+                    <p class="text-lg text-midnight-400 mb-8 leading-relaxed">
+                        We believe great tools should be accessible to everyone. That's why Cronjobs.to supports multiple languages, making it easy for teams around the world to monitor their jobs.
+                    </p>
+                    
+                    <!-- Language Flags -->
+                    <div class="flex flex-wrap gap-3 mb-8">
+                        <div class="flex items-center gap-2.5 px-3 py-2.5 bg-midnight-800/50 rounded-lg border border-midnight-700">
+                            <div class="w-8 h-8 rounded-md overflow-hidden flex-shrink-0 shadow-md ring-1 ring-white/10">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 7410 3900" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                                    <rect width="7410" height="3900" fill="#b22234"/>
+                                    <path d="M0,450H7410m0,600H0m0,600H7410m0,600H0m0,600H7410m0,600H0" stroke="#fff" stroke-width="300"/>
+                                    <rect width="2964" height="2100" fill="#3c3b6e"/>
+                                    <g fill="#fff">
+                                        <g id="s18"><g id="s9"><g id="s5"><g id="s4"><path id="s" d="M247,90 317.534230,307.082039 132.873218,172.917961H361.126782L176.465770,307.082039z"/><use href="#s" y="420"/><use href="#s" y="840"/><use href="#s" y="1260"/></g><use href="#s" y="1680"/></g><use href="#s4" x="247" y="210"/></g><use href="#s9" x="494"/></g><use href="#s18" x="988"/><use href="#s9" x="1976"/><use href="#s5" x="2470"/>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-midnight-100">English</p>
+                                <p class="text-xs text-midnight-500">Default</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2.5 px-3 py-2.5 bg-midnight-800/50 rounded-lg border border-midnight-700">
+                            <div class="w-8 h-8 rounded-md overflow-hidden flex-shrink-0 shadow-md ring-1 ring-white/10">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                                    <rect width="1200" height="800" fill="#E30A17"/>
+                                    <circle cx="425" cy="400" r="200" fill="#fff"/>
+                                    <circle cx="475" cy="400" r="160" fill="#E30A17"/>
+                                    <path fill="#fff" d="M 625 305 L 680 475 L 860 495 L 730 620 L 765 800 L 625 720 L 485 800 L 520 620 L 390 495 L 570 475 Z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-midnight-100">Türkçe</p>
+                                <p class="text-xs text-midnight-500">Turkish</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2.5 px-3 py-2.5 bg-midnight-800/50 rounded-lg border border-midnight-700">
+                            <div class="w-8 h-8 rounded-md overflow-hidden flex-shrink-0 shadow-md ring-1 ring-white/10">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 3" class="w-full h-full" preserveAspectRatio="xMidYMid meet">
+                                    <rect width="5" height="1" fill="#000"/>
+                                    <rect width="5" height="1" y="1" fill="#D00"/>
+                                    <rect width="5" height="1" y="2" fill="#FFCE00"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-midnight-100">Deutsch</p>
+                                <p class="text-xs text-midnight-500">German</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2.5 px-3 py-2.5 bg-midnight-800/30 rounded-lg border border-dashed border-midnight-600">
+                            <div class="w-8 h-8 rounded-md overflow-hidden flex-shrink-0 bg-gradient-to-br from-blue-500 via-blue-600 to-green-600 flex items-center justify-center shadow-md ring-1 ring-white/10">
+                                <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-midnight-400">More Coming</p>
+                                <p class="text-xs text-midnight-600">Soon</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-midnight-500">
+                        <svg class="w-4 h-4 inline mr-1 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Change your language anytime in account settings
+                    </p>
+                </div>
+                
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-sky-500/20 via-transparent to-cyan-500/20 blur-3xl"></div>
+                    <div class="relative card p-6 lg:p-8">
+                        <div class="space-y-4">
+                            <!-- UI Preview -->
+                            <div class="flex items-center justify-between p-4 bg-midnight-800/50 rounded-lg border border-midnight-700">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-accent-500/10 rounded-lg flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                        </svg>
+                                    </div>
+                                    <span class="font-medium text-midnight-100">Dashboard</span>
+                                </div>
+                                <span class="text-xs text-midnight-500">Kontrol Paneli</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-midnight-800/50 rounded-lg border border-midnight-700">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <span class="font-medium text-midnight-100">Cron Jobs</span>
+                                </div>
+                                <span class="text-xs text-midnight-500">Zamanlanmış Görevler</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-midnight-800/50 rounded-lg border border-midnight-700">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                        </svg>
+                                    </div>
+                                    <span class="font-medium text-midnight-100">Statistics</span>
+                                </div>
+                                <span class="text-xs text-midnight-500">İstatistikler</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-midnight-800/50 rounded-lg border border-midnight-700">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-rose-500/10 rounded-lg flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </div>
+                                    <span class="font-medium text-midnight-100">Settings</span>
+                                </div>
+                                <span class="text-xs text-midnight-500">Ayarlar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -359,9 +701,38 @@
                 
                 <div class="relative">
                     <h2 class="text-3xl font-bold text-midnight-50 mb-4">Ready to automate your tasks?</h2>
-                    <p class="text-midnight-400 mb-8 max-w-xl mx-auto">
+                    <p class="text-midnight-400 mb-6 max-w-xl mx-auto">
                         Join thousands of developers who trust cronjobs.to for their scheduled tasks.
                     </p>
+                    
+                    <!-- Feature highlights -->
+                    <div class="flex flex-wrap items-center justify-center gap-4 mb-8 text-sm">
+                        <div class="flex items-center gap-2 px-3 py-1.5 bg-midnight-800/50 rounded-full">
+                            <svg class="w-4 h-4 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            <span class="text-midnight-300">2FA Security</span>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 bg-midnight-800/50 rounded-full">
+                            <svg class="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                            <span class="text-midnight-300">Telegram Alerts</span>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 bg-midnight-800/50 rounded-full">
+                            <svg class="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                            </svg>
+                            <span class="text-midnight-300">Multi-Language</span>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 bg-midnight-800/50 rounded-full">
+                            <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            <span class="text-midnight-300">Activity Logs</span>
+                        </div>
+                    </div>
+
                     <a href="#" onclick="document.getElementById('url').focus(); window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="btn-primary text-base px-8 py-3">
                         Create Your First Job
                         <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -530,6 +901,80 @@
             updateCronExpression();
         });
     });
+    </script>
+
+    <!-- SoftwareApplication Schema -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "SoftwareApplication",
+        "name": "Cronjobs.to",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "description": "Schedule HTTP jobs in the cloud. Monitor cron jobs, get alerts on failures via Telegram & Email, and view detailed logs.",
+        "url": "{{ url('/') }}",
+        "offers": {
+            "@@type": "AggregateOffer",
+            "lowPrice": "0",
+            "highPrice": "5",
+            "priceCurrency": "USD",
+            "offerCount": "3"
+        },
+        "featureList": [
+            "Flexible cron scheduling",
+            "Automatic retries on failure",
+            "Email and Telegram alerts",
+            "Detailed execution logs",
+            "Custom headers and body",
+            "Heartbeat monitoring",
+            "Uptime monitoring",
+            "Public status pages",
+            "Two-factor authentication",
+            "Multi-language support",
+            "Activity logging"
+        ],
+        "screenshot": "{{ asset('images/og-image.png') }}",
+        "softwareVersion": "1.0",
+        "datePublished": "2024-01-01",
+        "aggregateRating": {
+            "@@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "150",
+            "bestRating": "5",
+            "worstRating": "1"
+        }
+    }
+    </script>
+
+    <!-- HowTo Schema for Getting Started -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "HowTo",
+        "name": "How to Schedule a Cron Job with Cronjobs.to",
+        "description": "Learn how to create and schedule your first HTTP cron job in 3 easy steps.",
+        "step": [
+            {
+                "@@type": "HowToStep",
+                "name": "Create Your Job",
+                "text": "Enter your URL and set your schedule using the visual cron builder.",
+                "position": 1
+            },
+            {
+                "@@type": "HowToStep",
+                "name": "Sign Up Free",
+                "text": "Create your account to activate monitoring and receive alerts.",
+                "position": 2
+            },
+            {
+                "@@type": "HowToStep",
+                "name": "Monitor & Relax",
+                "text": "We'll run your jobs and notify you if anything goes wrong.",
+                "position": 3
+            }
+        ],
+        "totalTime": "PT5M"
+    }
     </script>
 
 </x-public-layout>

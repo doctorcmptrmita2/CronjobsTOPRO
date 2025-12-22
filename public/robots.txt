@@ -1,2 +1,46 @@
+# Cronjobs.to Robots.txt
+# Last updated: 2025-12-22
+
 User-agent: *
-Disallow:
+Allow: /
+
+# Public pages
+Allow: /
+Allow: /pricing
+Allow: /docs
+Allow: /faq
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /terms
+Allow: /system-status
+
+# Disallow authenticated/private areas
+Disallow: /dashboard
+Disallow: /dashboard/*
+Disallow: /jobs
+Disallow: /jobs/*
+Disallow: /uptime
+Disallow: /uptime/*
+Disallow: /status-pages
+Disallow: /status-pages/*
+Disallow: /statistics
+Disallow: /statistics/*
+Disallow: /activity-log
+Disallow: /activity-log/*
+Disallow: /settings
+Disallow: /settings/*
+Disallow: /profile
+Disallow: /profile/*
+Disallow: /api
+Disallow: /api/*
+Disallow: /login
+Disallow: /register
+Disallow: /password
+Disallow: /password/*
+
+# Crawl-delay for politeness
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://cronjobs.to/sitemap.xml

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="title">Create Job</x-slot>
+    <x-slot name="title">{{ __('app.create_cron_job') }}</x-slot>
     
     <x-slot name="header">
         <div class="flex items-center gap-4">
@@ -9,8 +9,8 @@
                 </svg>
             </a>
             <div>
-                <h1 class="text-2xl font-bold text-midnight-50">Create Cron Job</h1>
-                <p class="text-sm text-midnight-400 mt-1">Create a new scheduled task</p>
+                <h1 class="text-2xl font-bold text-midnight-50">{{ __('app.create_cron_job') }}</h1>
+                <p class="text-sm text-midnight-400 mt-1">{{ __('app.create_new_task') }}</p>
             </div>
         </div>
     </x-slot>

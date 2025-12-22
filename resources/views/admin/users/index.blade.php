@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="text-2xl font-bold text-midnight-50">Users</h1>
-        <p class="text-sm text-midnight-400 mt-1">Manage all registered users</p>
+        <h1 class="text-2xl font-bold text-midnight-50">{{ __('app.users') }}</h1>
+        <p class="text-sm text-midnight-400 mt-1">{{ __('app.admin_users_desc') }}</p>
     </x-slot>
 
     <div class="card">
@@ -9,12 +9,12 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Plan</th>
-                        <th>Jobs</th>
-                        <th>Joined</th>
+                        <th>{{ __('app.id') }}</th>
+                        <th>{{ __('app.name') }}</th>
+                        <th>{{ __('app.email') }}</th>
+                        <th>{{ __('app.plan') }}</th>
+                        <th>{{ __('app.jobs') }}</th>
+                        <th>{{ __('app.joined') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,7 +34,7 @@
                         </td>
                         <td class="text-midnight-400">{{ $user->email }}</td>
                         <td>
-                            <span class="badge-neutral">{{ $user->plan?->name ?? 'Free' }}</span>
+                            <span class="badge-neutral">{{ $user->plan?->name ?? __('app.free_plan') }}</span>
                         </td>
                         <td class="text-midnight-400">{{ $user->jobs_count }}</td>
                         <td class="text-midnight-500 text-sm">{{ $user->created_at->format('M d, Y') }}</td>

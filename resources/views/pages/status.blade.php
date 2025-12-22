@@ -1,10 +1,14 @@
-<x-public-layout>
+<x-public-layout 
+    title="System Status" 
+    description="Real-time status of Cronjobs.to infrastructure. Check uptime, performance metrics, and current system health."
+    keywords="cronjobs status, system status, uptime status, service status, infrastructure health"
+>
     <div class="min-h-screen py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Hero -->
             <div class="text-center mb-12">
                 <div class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-sm mb-6">
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" aria-hidden="true"></span>
                     <span class="text-emerald-400 font-medium">All Systems Operational</span>
                 </div>
                 <h1 class="text-4xl sm:text-5xl font-bold text-midnight-50 mb-4">
@@ -16,9 +20,9 @@
             </div>
 
             <!-- Current Status -->
-            <div class="card p-6 mb-8">
+            <section class="card p-6 mb-8" aria-labelledby="current-status-heading">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-semibold text-midnight-50">Current Status</h2>
+                    <h2 id="current-status-heading" class="text-xl font-semibold text-midnight-50">Current Status</h2>
                     <span class="text-sm text-midnight-500">Last updated: {{ now()->format('M d, Y H:i') }} UTC</span>
                 </div>
 
@@ -26,7 +30,7 @@
                     <!-- API -->
                     <div class="flex items-center justify-between p-4 bg-midnight-800/50 rounded-lg">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                            <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center" aria-hidden="true">
                                 <svg class="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
                                 </svg>
@@ -42,7 +46,7 @@
                     <!-- Job Scheduler -->
                     <div class="flex items-center justify-between p-4 bg-midnight-800/50 rounded-lg">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                            <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center" aria-hidden="true">
                                 <svg class="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
@@ -58,7 +62,7 @@
                     <!-- Monitoring -->
                     <div class="flex items-center justify-between p-4 bg-midnight-800/50 rounded-lg">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                            <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center" aria-hidden="true">
                                 <svg class="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                                 </svg>
@@ -74,7 +78,7 @@
                     <!-- Database -->
                     <div class="flex items-center justify-between p-4 bg-midnight-800/50 rounded-lg">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+                            <div class="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center" aria-hidden="true">
                                 <svg class="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
                                 </svg>
@@ -87,10 +91,11 @@
                         <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-sm font-medium rounded-full">Operational</span>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Metrics -->
-            <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <section class="grid md:grid-cols-3 gap-6 mb-8" aria-labelledby="metrics-heading">
+                <h2 id="metrics-heading" class="sr-only">Performance Metrics</h2>
                 <div class="card p-6 text-center">
                     <div class="text-3xl font-bold text-accent-400 mb-1">{{ $stats['success_rate'] }}%</div>
                     <div class="text-midnight-400 text-sm">Success Rate (24h)</div>
@@ -103,12 +108,12 @@
                     <div class="text-3xl font-bold text-blue-400 mb-1">{{ $stats['avg_response_time'] }}ms</div>
                     <div class="text-midnight-400 text-sm">Avg Response Time</div>
                 </div>
-            </div>
+            </section>
 
             <!-- Uptime History -->
-            <div class="card p-6 mb-8">
-                <h2 class="text-xl font-semibold text-midnight-50 mb-6">90-Day Uptime History</h2>
-                <div class="flex gap-1">
+            <section class="card p-6 mb-8" aria-labelledby="uptime-heading">
+                <h2 id="uptime-heading" class="text-xl font-semibold text-midnight-50 mb-6">90-Day Uptime History</h2>
+                <div class="flex gap-1" role="img" aria-label="90-day uptime history showing consistent uptime">
                     @for($i = 0; $i < 90; $i++)
                         <div class="flex-1 h-8 bg-emerald-500 rounded-sm opacity-{{ rand(80, 100) }}" title="Day {{ 90 - $i }}: 100% uptime"></div>
                     @endfor
@@ -121,21 +126,51 @@
                     <span class="text-2xl font-bold text-emerald-400">99.98%</span>
                     <span class="text-midnight-400 ml-2">uptime over the last 90 days</span>
                 </div>
-            </div>
+            </section>
 
             <!-- Subscribe -->
-            <div class="card p-8 text-center bg-gradient-to-br from-midnight-900 via-midnight-900 to-accent-900/20">
-                <h2 class="text-xl font-semibold text-midnight-50 mb-4">Get Status Updates</h2>
+            <section class="card p-8 text-center bg-gradient-to-br from-midnight-900 via-midnight-900 to-accent-900/20" aria-labelledby="subscribe-heading">
+                <h2 id="subscribe-heading" class="text-xl font-semibold text-midnight-50 mb-4">Get Status Updates</h2>
                 <p class="text-midnight-400 mb-6">Subscribe to receive notifications about scheduled maintenance and incidents.</p>
-                <div class="flex max-w-md mx-auto gap-3">
-                    <input type="email" placeholder="your@email.com" class="input flex-1">
-                    <button class="btn-primary">Subscribe</button>
-                </div>
-            </div>
+                <form class="flex max-w-md mx-auto gap-3">
+                    <label for="status-email" class="sr-only">Email address</label>
+                    <input type="email" id="status-email" placeholder="your@email.com" class="input flex-1" required>
+                    <button type="submit" class="btn-primary">Subscribe</button>
+                </form>
+            </section>
         </div>
     </div>
+
+    <!-- Status Page Schema -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "WebPage",
+        "name": "Cronjobs.to System Status",
+        "description": "Real-time status of Cronjobs.to infrastructure including uptime, performance metrics, and system health.",
+        "url": "{{ route('system-status') }}"
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "{{ url('/') }}"
+            },
+            {
+                "@@type": "ListItem",
+                "position": 2,
+                "name": "System Status",
+                "item": "{{ route('system-status') }}"
+            }
+        ]
+    }
+    </script>
 </x-public-layout>
-
-
-
-

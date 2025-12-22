@@ -2,14 +2,14 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-midnight-50">Jobs</h1>
-                <p class="text-sm text-midnight-400 mt-1">Manage your scheduled HTTP jobs</p>
+                <h1 class="text-2xl font-bold text-midnight-50">{{ __('app.jobs') }}</h1>
+                <p class="text-sm text-midnight-400 mt-1">{{ __('app.jobs_desc') }}</p>
             </div>
             <a href="{{ route('jobs.create') }}" class="btn-primary">
                 <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
-                New Job
+                {{ __('app.new_job') }}
             </a>
         </div>
     </x-slot>
@@ -22,15 +22,15 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>
-            <h3 class="text-lg font-semibold text-midnight-100 mb-2">No jobs yet</h3>
+            <h3 class="text-lg font-semibold text-midnight-100 mb-2">{{ __('app.no_jobs_yet') }}</h3>
             <p class="text-midnight-400 mb-6 max-w-md mx-auto">
-                Create your first scheduled job to start monitoring your HTTP endpoints.
+                {{ __('app.create_first_job') }}
             </p>
             <a href="{{ route('jobs.create') }}" class="btn-primary">
                 <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
-                Create Your First Job
+                {{ __('app.create_first_job_btn') }}
             </a>
         </div>
         @else
@@ -38,12 +38,12 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Schedule</th>
-                        <th>Status</th>
-                        <th>Last Activity</th>
-                        <th class="text-right">Actions</th>
+                        <th>{{ __('app.name') }}</th>
+                        <th>{{ __('app.type') }}</th>
+                        <th>{{ __('app.schedule') }}</th>
+                        <th>{{ __('app.status') }}</th>
+                        <th>{{ __('app.last_activity') }}</th>
+                        <th class="text-right">{{ __('app.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,7 +59,7 @@
                             </p>
                             @else
                             <p class="text-xs text-emerald-500 mt-0.5">
-                                Ping every {{ $job->heartbeat_interval }} min
+                                {{ __('app.ping_every', ['interval' => $job->heartbeat_interval]) }}
                             </p>
                             @endif
                         </td>
@@ -69,14 +69,14 @@
                                 <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                 </svg>
-                                Heartbeat
+                                {{ __('app.heartbeat') }}
                             </span>
                             @else
                             <span class="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium bg-blue-500/10 text-blue-400 rounded-md">
                                 <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                Cron
+                                {{ __('app.cron') }}
                             </span>
                             @endif
                         </td>
@@ -91,39 +91,39 @@
                                 @if($hbStatus === 'healthy')
                                 <span class="badge-success">
                                     <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1.5 animate-pulse"></span>
-                                    Healthy
+                                    {{ __('app.healthy') }}
                                 </span>
                                 @elseif($hbStatus === 'warning')
                                 <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-amber-500/10 text-amber-400 rounded-md">
                                     <span class="w-1.5 h-1.5 bg-amber-400 rounded-full mr-1.5"></span>
-                                    Late
+                                    {{ __('app.late') }}
                                 </span>
                                 @elseif($hbStatus === 'critical')
                                 <span class="badge-danger">
                                     <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-1.5"></span>
-                                    Missed
+                                    {{ __('app.missed') }}
                                 </span>
                                 @elseif($hbStatus === 'waiting')
                                 <span class="badge-neutral">
                                     <span class="w-1.5 h-1.5 bg-midnight-500 rounded-full mr-1.5"></span>
-                                    Waiting
+                                    {{ __('app.waiting') }}
                                 </span>
                                 @else
                                 <span class="badge-neutral">
                                     <span class="w-1.5 h-1.5 bg-midnight-500 rounded-full mr-1.5"></span>
-                                    Paused
+                                    {{ __('app.paused') }}
                                 </span>
                                 @endif
                             @else
                                 @if($job->is_active)
                                 <span class="badge-success">
                                     <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1.5 animate-pulse"></span>
-                                    Active
+                                    {{ __('app.active') }}
                                 </span>
                                 @else
                                 <span class="badge-neutral">
                                     <span class="w-1.5 h-1.5 bg-midnight-500 rounded-full mr-1.5"></span>
-                                    Paused
+                                    {{ __('app.paused') }}
                                 </span>
                                 @endif
                             @endif
@@ -138,7 +138,7 @@
                                     </span>
                                 </div>
                                 @else
-                                <span class="text-midnight-500 text-sm">No pings yet</span>
+                                <span class="text-midnight-500 text-sm">{{ __('app.no_pings_yet') }}</span>
                                 @endif
                             @else
                                 @if($job->last_run_at)
@@ -153,7 +153,7 @@
                                     </span>
                                 </div>
                                 @else
-                                <span class="text-midnight-500 text-sm">Never</span>
+                                <span class="text-midnight-500 text-sm">{{ __('app.never') }}</span>
                                 @endif
                             @endif
                         </td>
@@ -162,7 +162,7 @@
                                 <form action="{{ route('jobs.toggle', $job) }}" method="POST" class="inline">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="p-2 text-midnight-400 hover:text-midnight-100 hover:bg-midnight-800 rounded-lg transition-colors" title="{{ $job->is_active ? 'Pause' : 'Activate' }}">
+                                    <button type="submit" class="p-2 text-midnight-400 hover:text-midnight-100 hover:bg-midnight-800 rounded-lg transition-colors" title="{{ $job->is_active ? __('app.pause') : __('app.activate') }}">
                                         @if($job->is_active)
                                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -175,7 +175,7 @@
                                         @endif
                                     </button>
                                 </form>
-                                <a href="{{ route('jobs.edit', $job) }}" class="p-2 text-midnight-400 hover:text-midnight-100 hover:bg-midnight-800 rounded-lg transition-colors" title="Edit">
+                                <a href="{{ route('jobs.edit', $job) }}" class="p-2 text-midnight-400 hover:text-midnight-100 hover:bg-midnight-800 rounded-lg transition-colors" title="{{ __('app.edit') }}">
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
@@ -183,7 +183,7 @@
                                 @if($job->isCron())
                                 <form action="{{ route('jobs.run-now', $job) }}" method="POST" class="inline">
                                     @csrf
-                                    <button type="submit" class="p-2 text-midnight-400 hover:text-accent-400 hover:bg-midnight-800 rounded-lg transition-colors" title="Run Now">
+                                    <button type="submit" class="p-2 text-midnight-400 hover:text-accent-400 hover:bg-midnight-800 rounded-lg transition-colors" title="{{ __('app.run_now') }}">
                                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                                         </svg>

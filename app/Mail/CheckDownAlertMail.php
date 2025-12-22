@@ -34,3 +34,7 @@ class CheckDownAlertMail extends Mailable implements ShouldQueue
     }
 }
 
+
+
+
+

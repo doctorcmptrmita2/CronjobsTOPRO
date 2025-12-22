@@ -1,4 +1,8 @@
-<x-public-layout title="Privacy Policy">
+<x-public-layout 
+    title="Privacy Policy - How We Protect Your Data" 
+    description="Cronjobs.to Privacy Policy. Learn how we collect, use, and protect your data. GDPR compliant. We never sell your information. Last updated December 2025."
+    keywords="privacy policy, data protection, GDPR, user privacy, data security, cookie policy, cronjobs.to privacy"
+>
     <div class="min-h-screen py-24">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             

@@ -1,3 +1,6 @@
+Gelen get metodu isteklerini loglarını görebilecekleri bir panel.Sunucu down durumunda whatsapp api veya telegram api ile bildirim.Yapı tamamen multi language olmalı.Auth fonksiyonuna 2fa eklenmeli bazı cron dosyaları çok özeldir.Sisteme login durumunda cloudflare giib oto mail gidebilir. 
+
+
 # 🚀 Easypanel Deployment Guide - Cronjobs.to
 
 ## 📋 Gereksinimler

@@ -3,12 +3,15 @@
 namespace App\Jobs;
 
 use App\Mail\JobFailureAlertMail;
+use App\Mail\JobRecoveredMail;
 use App\Models\Job;
 use App\Models\JobRun;
 use App\Services\JobRunnerService;
 use App\Services\JobSchedulerService;
+use App\Services\TelegramService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class RunJob implements ShouldQueue
@@ -36,6 +39,7 @@ class RunJob implements ShouldQueue
 
         $now = now();
         $previousFailures = $job->consecutive_failures;
+        $wasInFailState = $previousFailures >= $job->failure_alert_threshold;
 
         $result = $runnerService->run($job);
 
@@ -59,16 +63,15 @@ class RunJob implements ShouldQueue
         $job->save();
 
         if (!$result['success']) {
-            $this->sendAlertIfNeeded($job, $previousFailures);
+            $this->sendFailureAlertIfNeeded($job, $previousFailures);
+        } elseif ($wasInFailState) {
+            // Job recovered from failure state
+            $this->sendRecoveryAlert($job);
         }
     }
 
-    protected function sendAlertIfNeeded(Job $job, int $previousFailures): void
+    protected function sendFailureAlertIfNeeded(Job $job, int $previousFailures): void
     {
-        if (! $job->alert_email_enabled) {
-            return;
-        }
-
         if ($job->consecutive_failures < $job->failure_alert_threshold) {
             return;
         }
@@ -85,10 +88,55 @@ class RunJob implements ShouldQueue
             return;
         }
 
-        $userEmail = $job->user->notification_email ?? $job->user->email;
+        $user = $job->user;
 
-        if ($userEmail) {
-            Mail::to($userEmail)->queue(new JobFailureAlertMail($job));
+        // Send email notification
+        if ($job->alert_email_enabled) {
+            $userEmail = $user->notification_email ?? $user->email;
+            if ($userEmail) {
+                try {
+                    Mail::to($userEmail)->queue(new JobFailureAlertMail($job));
+                } catch (\Exception $e) {
+                    Log::error("Failed to send job failure email for job {$job->id}: " . $e->getMessage());
+                }
+            }
+        }
+
+        // Send Telegram notification
+        if ($user->telegram_enabled && $user->telegram_chat_id) {
+            try {
+                $telegram = new TelegramService();
+                $telegram->sendJobFailureAlert($user, $job, $job->last_error_message);
+            } catch (\Exception $e) {
+                Log::error("Failed to send job failure Telegram for job {$job->id}: " . $e->getMessage());
+            }
+        }
+    }
+
+    protected function sendRecoveryAlert(Job $job): void
+    {
+        $user = $job->user;
+
+        // Send email notification
+        if ($job->alert_email_enabled) {
+            $userEmail = $user->notification_email ?? $user->email;
+            if ($userEmail) {
+                try {
+                    Mail::to($userEmail)->queue(new JobRecoveredMail($job));
+                } catch (\Exception $e) {
+                    Log::error("Failed to send job recovery email for job {$job->id}: " . $e->getMessage());
+                }
+            }
+        }
+
+        // Send Telegram notification
+        if ($user->telegram_enabled && $user->telegram_chat_id) {
+            try {
+                $telegram = new TelegramService();
+                $telegram->sendJobRecoveryAlert($user, $job);
+            } catch (\Exception $e) {
+                Log::error("Failed to send job recovery Telegram for job {$job->id}: " . $e->getMessage());
+            }
         }
     }
 }

@@ -25,6 +25,7 @@ class AccountUpdateRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$this->user()?->id],
             'timezone' => ['required', 'string', 'max:100'],
+            'locale' => ['required', 'string', 'in:en,tr,de'],
             'notification_email' => ['nullable', 'email', 'max:255'],
         ];
     }

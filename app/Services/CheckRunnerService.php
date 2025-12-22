@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Log;
 
 class CheckRunnerService
 {
+    protected TelegramService $telegram;
+
+    public function __construct()
+    {
+        $this->telegram = new TelegramService();
+    }
     /**
      * Run a single uptime check
      */
@@ -142,15 +148,25 @@ class CheckRunnerService
      */
     protected function sendDownNotification(Check $check, ?string $errorMessage): void
     {
-        if (!$check->alert_email_enabled) {
-            return;
+        $user = $check->user;
+
+        // Send email notification
+        if ($check->alert_email_enabled) {
+            try {
+                $email = $user->notification_email ?? $user->email;
+                Mail::to($email)->queue(new CheckDownAlertMail($check, $errorMessage));
+            } catch (\Exception $e) {
+                Log::error("Failed to send check down email for check {$check->id}: " . $e->getMessage());
+            }
         }
 
-        try {
-            $email = $check->user->notification_email ?? $check->user->email;
-            Mail::to($email)->queue(new CheckDownAlertMail($check, $errorMessage));
-        } catch (\Exception $e) {
-            Log::error("Failed to send check down notification for check {$check->id}: " . $e->getMessage());
+        // Send Telegram notification
+        if ($user->telegram_enabled && $user->telegram_chat_id) {
+            try {
+                $this->telegram->sendCheckDownAlert($user, $check, $errorMessage);
+            } catch (\Exception $e) {
+                Log::error("Failed to send check down Telegram for check {$check->id}: " . $e->getMessage());
+            }
         }
     }
 
@@ -159,16 +175,30 @@ class CheckRunnerService
      */
     protected function sendRecoveryNotification(Check $check): void
     {
-        if (!$check->alert_email_enabled) {
-            return;
+        $user = $check->user;
+
+        // Send email notification
+        if ($check->alert_email_enabled) {
+            try {
+                $email = $user->notification_email ?? $user->email;
+                Mail::to($email)->queue(new CheckRecoveredMail($check));
+            } catch (\Exception $e) {
+                Log::error("Failed to send check recovery email for check {$check->id}: " . $e->getMessage());
+            }
         }
 
-        try {
-            $email = $check->user->notification_email ?? $check->user->email;
-            Mail::to($email)->queue(new CheckRecoveredMail($check));
-        } catch (\Exception $e) {
-            Log::error("Failed to send check recovery notification for check {$check->id}: " . $e->getMessage());
+        // Send Telegram notification
+        if ($user->telegram_enabled && $user->telegram_chat_id) {
+            try {
+                $this->telegram->sendCheckRecoveryAlert($user, $check);
+            } catch (\Exception $e) {
+                Log::error("Failed to send check recovery Telegram for check {$check->id}: " . $e->getMessage());
+            }
         }
     }
 }
+
+
+
+
 

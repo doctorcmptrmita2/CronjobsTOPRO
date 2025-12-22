@@ -30,7 +30,17 @@ class User extends Authenticatable
         'email',
         'password',
         'timezone',
+        'locale',
         'notification_email',
+        'login_alerts_enabled',
+        'telegram_chat_id',
+        'telegram_username',
+        'telegram_enabled',
+        'telegram_verification_code',
+        'telegram_verified_at',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+        'two_factor_confirmed_at',
         'plan_id',
         'is_admin',
     ];
@@ -56,7 +66,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'login_alerts_enabled' => 'boolean',
+            'telegram_enabled' => 'boolean',
+            'telegram_verified_at' => 'datetime',
+            'two_factor_confirmed_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Check if user has 2FA enabled
+     */
+    public function hasTwoFactorEnabled(): bool
+    {
+        return $this->two_factor_confirmed_at !== null;
     }
 
     public function plan(): BelongsTo
@@ -87,5 +109,10 @@ class User extends Authenticatable
     public function checks(): HasMany
     {
         return $this->hasMany(Check::class);
+    }
+
+    public function loginHistories(): HasMany
+    {
+        return $this->hasMany(LoginHistory::class);
     }
 }
